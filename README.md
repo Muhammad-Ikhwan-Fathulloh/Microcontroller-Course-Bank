@@ -77,5 +77,6 @@ Microcontroller Course Bank
 
 <p>Sumber:</p>
 <ul>
+  <li><a href="https://www.youtube.com/playlist?list=PLaC2GD6EmthX4x-tkUo6ZEe1dqd6e6vex">Playlist Kuliah  Mikrokontroller</a></li>
   <li><a href="https://www.tinkercad.com/users/fLJ4Cr1QCXa?type=circuits">Tinkercad Circuit</a></li>
 </ul>

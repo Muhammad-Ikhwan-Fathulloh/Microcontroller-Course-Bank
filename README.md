@@ -10,8 +10,8 @@ Microcontroller Course Bank
   <br>
   <li>Mengenal Mikrokontroller Arduino dan Pemograman C++</li>
   <ul>
-    <li>-</li>
-    <li>-</li>
+    <li>Pemograman Arduino C++: <a href="https://medium.com/@ikhwanfathulloh/pemograman-dasar-arduino-bbec7bb6ec11">Medium</a></li>
+    <li>Penjelasan Pemograman Arduino C++: <a href="https://www.youtube.com/playlist?list=PLaC2GD6EmthV7dJBrq9eMw0NNCk83fLxs">Youtube</a></li> 
   </ul>
   <br>
   <li>Komunikasi Data Serial, Sensor dan Aktuator</li>

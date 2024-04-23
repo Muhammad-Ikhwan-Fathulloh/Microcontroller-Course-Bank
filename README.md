@@ -16,7 +16,7 @@ Microcontroller Course Bank
   <br>
   <li>Komunikasi Data Serial, Sensor dan Aktuator</li>
   <ul>
-    <li>-</li>
+    <li>Rangkaian Komunikasi Serial Sensor dan Aktuator: <a href="https://www.tinkercad.com/things/eJKRDjfadeZ-komunikasi-serial-sensor-dan-aktuator">Tinkercad</a></li>
     <li>-</li>
   </ul>
   <br>

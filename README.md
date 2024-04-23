@@ -4,7 +4,7 @@ Microcontroller Course Bank
 <ul>
   <li>Arus, Tegangan, dan Daya</li>
   <ul>
-    <li>-</li>
+    <li>Penjelasan Dioda Bridge: <a href="https://www.youtube.com/watch?v=n-bfkUUbT6k">Youtube</a></li>
     <li>-</li>
   </ul>
   <br>

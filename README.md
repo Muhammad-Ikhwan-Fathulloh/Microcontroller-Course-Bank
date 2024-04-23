@@ -4,8 +4,8 @@ Microcontroller Course Bank
 <ul>
   <li>Arus, Tegangan, dan Daya</li>
   <ul>
-    <li>Penjelasan Dioda Bridge: <a href="https://www.youtube.com/watch?v=n-bfkUUbT6k">Youtube</a></li>
-    <li>-</li>
+    <li>Rangkaian Dioda Bridge: <a href="https://www.tinkercad.com/things/2mhRJJv0s8d-dioda-bridge">Tinkercad</a></li>
+    <li>Penjelasan Dioda Bridge: <a href="https://www.youtube.com/watch?v=n-bfkUUbT6k">Youtube</a></li> 
   </ul>
   <br>
   <li>Mengenal Mikrokontroller Arduino dan Pemograman C++</li>

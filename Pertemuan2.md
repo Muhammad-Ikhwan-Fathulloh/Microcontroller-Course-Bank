@@ -301,7 +301,7 @@ Simulasi LED yang dikendalikan dengan tombol. Tekan tombol untuk menyalakan/mema
 
 ### 🏃 Running LED
 
-Simulasi LED berjalan (running LED) dengan 8 LED yang menyala bergantian.
+Simulasi LED berjalan (running LED) dengan 5 LED yang menyala bergantian.
 
 <iframe width="725" height="453" src="https://www.tinkercad.com/embed/3jERpIjfvOG?editbtn=1" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
 
@@ -323,4 +323,7 @@ Simulasi animasi LED dengan berbagai pola menyala dan efek visual.
 ## 📚 Sumber Belajar
 
 - 📄 [Artikel Medium - Dasar Pemrograman Arduino C++](https://medium.com/@ikhwanfathulloh/pemograman-dasar-arduino-bbec7bb6ec11)
-- 🎥 [Playlist YouTube - Tutorial Pemrograman Arduino untuk Pemula](https://www.youtube.com/playlist?list=PLaC2GD6EmthV7dJBrq9eMw0NNCk83fLxs)
+
+### 🎥 Playlist Tutorial Pemrograman Arduino untuk Pemula
+
+<iframe width="725" height="453" src="https://www.youtube.com/embed/videoseries?list=PLaC2GD6EmthV7dJBrq9eMw0NNCk83fLxs" frameborder="0" allowfullscreen></iframe>

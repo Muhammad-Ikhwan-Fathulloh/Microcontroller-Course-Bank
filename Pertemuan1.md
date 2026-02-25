@@ -249,7 +249,9 @@ Titik Ukur C (Output DC dengan kapasitor):
 
 ### 5. Video Penjelasan
 
-🔗 [Penjelasan YouTube - Cara Kerja Dioda Bridge](https://www.youtube.com/watch?v=n-bfkUUbT6k)
+### 🎥 Cara Kerja Dioda Bridge
+
+<iframe width="725" height="453" src="https://www.youtube.com/embed/n-bfkUUbT6k" frameborder="0" allowfullscreen></iframe>
 
 ---
 

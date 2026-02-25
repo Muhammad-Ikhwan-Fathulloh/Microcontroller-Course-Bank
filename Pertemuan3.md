@@ -325,4 +325,7 @@ Simulasi lengkap yang menggabungkan komunikasi serial dengan sensor dan aktuator
 ## 📚 Sumber Belajar
 
 - 🔗 [Simulasi Tinkercad - Komunikasi Serial](https://www.tinkercad.com/things/eJKRDjfadeZ-komunikasi-serial-sensor-dan-aktuator)
-- 🎥 [Playlist YouTube - Serial Komunikasi untuk Sensor dan Aktuator](https://www.youtube.com/playlist?list=PLaC2GD6EmthWsrz53AchCrQu5HNMtjvYC)
+
+### 🎥 Playlist Serial Komunikasi untuk Sensor dan Aktuator
+
+<iframe width="725" height="453" src="https://www.youtube.com/embed/videoseries?list=PLaC2GD6EmthWsrz53AchCrQu5HNMtjvYC" frameborder="0" allowfullscreen></iframe>

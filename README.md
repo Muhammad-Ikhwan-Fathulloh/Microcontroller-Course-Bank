@@ -109,7 +109,7 @@ Selamat datang di repositori bank materi untuk mata kuliah Mikrokontroler. Dafta
 
 ---
 
-## 13. 🤖 Mobile Robot: KoKuBot (Omniwheel Robot)
+## 13. 🤖 Robotika: Mobile Robot
 **Deskripsi:** Proyek pengembangan **mobile robot** dengan konfigurasi **4 roda omniwheel** yang dikendalikan melalui **ESP32** dan protokol **MQTT**. Robot ini dirancang untuk navigasi omnidirectional (bergerak ke segala arah) dengan kontrol presisi.
 - **Komponen Utama:** ESP32, 2x Modul Driver Motor L298N, 4x Motor DC dengan Omniwheel, Baterai Li-Ion 7.4V/12V.
 - **Fitur Utama:**

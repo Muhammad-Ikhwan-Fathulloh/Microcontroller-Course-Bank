@@ -23,56 +23,42 @@ Microcontroller Course Bank
   <li>ADC, DAC, dan PWM</li>
   <ul>
     <li>Rangkaian LED ADC dan PWM: <a href="https://www.tinkercad.com/things/3ootQIS5lMZ-led-adc-dan-pwm">Tinkercad</a></li>
-    <li>-</li>
-  </ul>
-  <br>
-  <li>Internet of Things</li>
-  <ul>
-    <li>-</li>
-    <li>-</li>
+    <li>Penjelasan LED ADC dan PWM: <a href="https://youtu.be/w54Nw1wsCKo?si=_TyPFZ4oJV4WIiaQ">Youtube</a></li> 
   </ul>
   <br>
   <li>Mikrokontroller Internet of Things ESP32</li>
   <ul>
-    <li>-</li>
-    <li>-</li>
+    <li>Penjelasan Internet of Things ESP32: <a href="https://youtu.be/UYyfUeZkfBw?si=C8z9gknJ-bqOPe-c">Youtube</a></li> 
   </ul>
   <br>
   <li>Internet of Things Platform Blynk</li>
   <ul>
-    <li>-</li>
-    <li>-</li>
+    <li>Penjelasan Internet of Things ESP32: <a href="https://youtu.be/pI9clelWYkI?si=BPgd_J8f4GfLnMrP">Youtube</a></li> 
   </ul>
   <br>
   <li>Komunikasi Data HTTP</li>
   <ul>
-    <li>-</li>
-    <li>-</li>
+    <li>Penjelasan Komunikasi Data HTTP: <a href="https://youtu.be/5j466VQMZO4?si=0sdtldkEQWhtTDg9">Youtube</a></li> 
+    <li>Proyek Komunikasi Data HTTP: <a href="https://github.com/Muhammad-Ikhwan-Fathulloh/Smarthome-Rest-API">Youtube</a></li> 
   </ul>
   <br>
   <li>Komunikasi Data MQTT</li>
   <ul>
-    <li>-</li>
-    <li>-</li>
-  </ul>
-  <br>
-  <li>Membuat Interface APK dengan Kodular</li>
-  <ul>
-    <li>-</li>
-    <li>-</li>
-  </ul>
-  <br>
-  <li>Membuat Interface Website dengan HTML, CSS, dan Javascript</li>
-  <ul>
-    <li>-</li>
-    <li>-</li>
+    <li>Penjelasan Komunikasi Data MQTT: <a href="https://youtu.be/5j466VQMZO4?si=0sdtldkEQWhtTDg9">Youtube</a></li> 
+    <li>Proyek Komunikasi Data MQTT: <a href="https://github.com/Muhammad-Ikhwan-Fathulloh/Smarthome-MQTT">Youtube</a></li> 
   </ul>
   <br>
   <li>Real Time Operating System</li>
   <ul>
-    <li>-</li>
-    <li>-</li>
+    <li>Penjelasan Real Time Operating System: <a href="https://www.youtube.com/playlist?list=PLaC2GD6EmthVB7f7ZJjgGAU9K3ylxzDMJ">Youtube</a></li> 
+    <li>Proyek Real Time Operating System: <a href="https://github.com/Muhammad-Ikhwan-Fathulloh/ESP32-dengan-Free-RTOS">Youtube</a></li> 
   </ul>
+  <li>Artificial Intelegent ESP32</li>
+  <ul>
+    <li>Penjelasan Artificial Intelegent ESP32: <a href="https://www.youtube.com/playlist?list=PLaC2GD6EmthVkj6hL_Aq0lwUAtMNX4Nla">Youtube</a></li> 
+    <li>Proyek Artificial Intelegent ESP32: <a href="https://github.com/Muhammad-Ikhwan-Fathulloh/BMI-Prediction-with-ESP32">Youtube</a></li> 
+  </ul>
+  <br>
 </ul>
 
 <p>Sumber:</p>

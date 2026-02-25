@@ -20,38 +20,6 @@
 
 ---
 
-## 🎮 Simulasi Interaktif Tinkercad
-
-### 🔘 LED dengan Button
-
-Simulasi LED yang dikendalikan dengan tombol. Tekan tombol untuk menyalakan/mematikan LED.
-
-<iframe width="725" height="453" src="https://www.tinkercad.com/embed/lf83RHYS4cT?editbtn=1" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-
-**Konsep:** Digital Read, If-Else, Pull-up Resistor
-
----
-
-### 🏃 Running LED
-
-Simulasi LED berjalan (running LED) dengan 8 LED yang menyala bergantian.
-
-<iframe width="725" height="453" src="https://www.tinkercad.com/embed/3jERpIjfvOG?editbtn=1" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-
-**Konsep:** Array, For Loop, Delay
-
----
-
-### ✨ Animasi LED
-
-Simulasi animasi LED dengan berbagai pola menyala dan efek visual.
-
-<iframe width="725" height="453" src="https://www.tinkercad.com/embed/kHLovVT7tI1?editbtn=1" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
-
-**Konsep:** Array 2 Dimensi, Fungsi, Switch-Case
-
----
-
 ## 1. 🔧 Pengenalan Arduino
 
 ### A. Jenis-jenis Board Arduino
@@ -318,6 +286,39 @@ void loop() {
 ```
 
 ---
+
+## 🎮 Simulasi Interaktif Tinkercad
+
+### 🔘 LED dengan Button
+
+Simulasi LED yang dikendalikan dengan tombol. Tekan tombol untuk menyalakan/mematikan LED.
+
+<iframe width="725" height="453" src="https://www.tinkercad.com/embed/lf83RHYS4cT?editbtn=1" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+
+**Konsep:** Digital Read, If-Else, Pull-up Resistor
+
+---
+
+### 🏃 Running LED
+
+Simulasi LED berjalan (running LED) dengan 8 LED yang menyala bergantian.
+
+<iframe width="725" height="453" src="https://www.tinkercad.com/embed/3jERpIjfvOG?editbtn=1" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+
+**Konsep:** Delay
+
+---
+
+### ✨ Animasi LED
+
+Simulasi animasi LED dengan berbagai pola menyala dan efek visual.
+
+<iframe width="725" height="453" src="https://www.tinkercad.com/embed/kHLovVT7tI1?editbtn=1" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+
+**Konsep:** Array, Fungsi, For
+
+---
+
 
 ## 📚 Sumber Belajar
 

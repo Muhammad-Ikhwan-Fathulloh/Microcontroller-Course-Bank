@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Security Lab · Docker & Kali</title>
+    <!-- Bootstrap 5 darkly themed (tweak to match security vibe) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- github-markdown-css with light background (still readable) -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-light.min.css">
+    <!-- highlight.js for code blocks -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark-dimmed.min.css">
+    <!-- mermaid.js for diagrams -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            background: #0b1a2f;
+            /* deep navy, like a terminal */
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .file-sidebar {
+            background: #0f2740;
+            border-right: 1px solid #1e3a5f;
+            height: calc(100vh - 62px);
+            overflow-y: auto;
+            color: #e0e9f5;
+        }
+
+        .file-sidebar .list-group-item {
+            background: transparent;
+            border: none;
+            color: #cbd5e6;
+            border-left: 3px solid transparent;
+            border-radius: 0;
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+            transition: 0.1s;
+            cursor: pointer;
+        }
+
+        .file-sidebar .list-group-item:hover {
+            background: #1a3450;
+            color: white;
+            border-left-color: #ffc107;
+        }
+
+        .file-sidebar .list-group-item.active {
+            background: #1e3f60;
+            color: white;
+            border-left-color: #0dcaf0;
+            font-weight: 500;
+        }
+
+        .badge-time {
+            background-color: #1e4a76;
+            color: #b6d0e8;
+            font-size: 0.7rem;
+            font-weight: 400;
+            padding: 0.2rem 0.6rem;
+            border-radius: 30px;
+        }
+
+        .content-pane {
+            background: #f5f9ff;
+            padding: 2rem 2.5rem;
+            height: calc(100vh - 62px);
+            overflow-y: auto;
+        }
+
+        .markdown-body {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem 3rem;
+            box-shadow: 0 10px 30px rgba(0, 15, 40, 0.15);
+            border: 1px solid #eaf0f6;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .commit-footer {
+            background: #e9f0f9;
+            border-radius: 50px;
+            padding: 0.45rem 1.5rem;
+            color: #1e3f68;
+            font-size: 0.85rem;
+        }
+
+        .file-meta-icon {
+            background: #1d3b5c;
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7bb2ff;
+        }
+
+        /* custom scrollbar */
+        .file-sidebar::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .file-sidebar::-webkit-scrollbar-track {
+            background: #0a1a2c;
+        }
+
+        .file-sidebar::-webkit-scrollbar-thumb {
+            background: #2f5579;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- top navbar -->
+    <nav class="navbar navbar-dark bg-dark px-4 py-2 border-bottom border-secondary">
+        <div class="container-fluid">
+            <span class="navbar-brand">
+                <i class="bi bi-shield-shaded me-2 text-warning"></i>
+                Network Security Lab · Kali + Docker
+            </span>
+            <div class="text-light-emphasis small">
+                <i class="bi bi-hdd-stack me-1"></i> 14 modul · ARP spoof to hardening
+            </div>
+        </div>
+    </nav>
+
+    <div class="row g-0">
+        <!-- sidebar kiri dengan daftar file markdown (termasuk README dan pertemuan) -->
+        <div class="col-12 col-md-3 col-lg-2 file-sidebar p-3">
+            <h6 class="text-uppercase small fw-semibold text-info-emphasis mb-3 ps-2">
+                <i class="bi bi-files me-1"></i> Lab notes
+            </h6>
+            <div id="fileList" class="list-group">
+                <!-- diisi javascript -->
+            </div>
+            <div class="mt-4 small text-secondary-emphasis ps-2">
+                <i class="bi bi-diagram-3"></i> arpspoof · hping3 · snort
+            </div>
+        </div>
+
+        <!-- konten utama markdown -->
+        <div class="col-12 col-md-9 col-lg-10 content-pane" id="contentMain">
+            <div id="markdownContainer" class="markdown-body">
+                <!-- loading -->
+                <div class="d-flex justify-content-center py-5">
+                    <div class="spinner-border text-primary" role="status"></div>
+                    <span class="ms-3 text-secondary">memuat markdown ...</span>
+                </div>
+            </div>
+            <!-- footer bar yang menampilkan commit dan waktu -->
+            <div class="d-flex justify-content-between mt-4 commit-footer mx-auto" style="max-width: 1100px;">
+                <span><i class="bi bi-git-commit me-1"></i> <span id="commitMessage">Update README.md</span></span>
+                <span><i class="bi bi-clock-history me-1"></i> <span id="commitTime">last week</span></span>
+                <span><i class="bi bi-file-earmark-text"></i> <span id="fileNameDisplay">README.md</span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- libs: marked, highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <!-- optional bootstrap js (for collapse etc not strictly needed) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        (function () {
+            // Data file berdasarkan file yang ada di direktori
+            const fileItems = [
+                {
+                    name: 'README.md',
+                    commit: 'Documentation utama repositori',
+                    time: 'active',
+                    icon: 'bi-shield-check',
+                    badge: 'utama'
+                },
+                { name: 'Pertemuan0.md', commit: 'Pengenalan & Setup Lingkungan', time: 'active', icon: 'bi-hdd-stack' },
+                { name: 'Pertemuan1.md', commit: 'Network Scanning & Enumeration', time: 'active', icon: 'bi-search' },
+                { name: 'Pertemuan2.md', commit: 'ARP Spoofing & MITM', time: 'active', icon: 'bi-eye' },
+                { name: 'Pertemuan3.md', commit: 'Cryptography & Hash', time: 'active', icon: 'bi-lock' },
+                { name: 'Pertemuan4.md', commit: 'Web Application Security', time: 'active', icon: 'bi-globe' },
+                { name: 'Pertemuan5.md', commit: 'Vulnerability Assessment', time: 'active', icon: 'bi-bug' }
+            ];
+
+            // render file list di sidebar
+            const fileListDiv = document.getElementById('fileList');
+            const markdownContainer = document.getElementById('markdownContainer');
+            const commitMsgSpan = document.getElementById('commitMessage');
+            const commitTimeSpan = document.getElementById('commitTime');
+            const fileNameSpan = document.getElementById('fileNameDisplay');
+
+            let activeFile = 'README.md';
+
+            function buildSidebar() {
+                fileListDiv.innerHTML = '';
+                fileItems.forEach(item => {
+                    const btn = document.createElement('a');
+                    btn.setAttribute('data-file', item.name);
+                    btn.className = `list-group-item list-group-item-action d-flex align-items-center gap-2 ${activeFile === item.name ? 'active' : ''}`;
+                    btn.innerHTML = `
+                        <i class="bi ${item.icon} fs-6" style="color:#7aaae0;"></i>
+                        <span class="flex-grow-1">${item.name}</span>
+                        <span class="badge-time">${item.time}</span>
+                    `;
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        setActiveFile(item.name);
+                    });
+                    fileListDiv.appendChild(btn);
+                });
+            }
+
+            // Fungsi untuk mengambil konten markdown dari file fisik
+            async function getMarkdownContent(filename) {
+                try {
+                    const response = await fetch(filename);
+                    if (!response.ok) throw new Error('File tidak ditemukan');
+                    return await response.text();
+                } catch (err) {
+                    console.error(err);
+                    return `# ⚠️ Error\n\nGagal memuat file: **${filename}**\n\nPastikan file tersebut ada di direktori yang sama dengan \`index.html\`.`;
+                }
+            }
+
+            async function setActiveFile(filename) {
+                activeFile = filename;
+
+                // Tampilkan loading spinner
+                markdownContainer.innerHTML = `
+                    <div class="d-flex justify-content-center py-5">
+                        <div class="spinner-border text-primary" role="status"></div>
+                        <span class="ms-3 text-secondary">memuat ${filename} ...</span>
+                    </div>
+                `;
+
+                // update class active di sidebar
+                document.querySelectorAll('.list-group-item').forEach(el => {
+                    if (el.getAttribute('data-file') === filename) {
+                        el.classList.add('active');
+                    } else {
+                        el.classList.remove('active');
+                    }
+                });
+
+                // update footer
+                const fileData = fileItems.find(f => f.name === filename);
+                if (fileData) {
+                    commitMsgSpan.innerText = fileData.commit;
+                    commitTimeSpan.innerText = fileData.time;
+                    fileNameSpan.innerText = filename;
+                }
+
+                // Fetch markdown
+                const rawMarkdown = await getMarkdownContent(filename);
+
+                // Kustomisasi marked renderer
+                const renderer = new marked.Renderer();
+
+                // Handle Mermaid blocks
+                const orangeRenderer = renderer.code.bind(renderer);
+                renderer.code = function (code, language, escaped) {
+                    if (language === 'mermaid') {
+                        return `<div class="mermaid">${code}</div>`;
+                    }
+                    return orangeRenderer(code, language, escaped);
+                };
+
+                // Handle Image Paths (strip leading slash to make them relative)
+                renderer.image = function (href, title, text) {
+                    let imagePath = href;
+                    if (imagePath.startsWith('/')) {
+                        imagePath = imagePath.substring(1);
+                    }
+                    return `<img src="${imagePath}" alt="${text || ''}" title="${title || ''}" class="img-fluid rounded my-3 border shadow-sm">`;
+                };
+
+                // Render HTML
+                const htmlContent = marked.parse(rawMarkdown, { renderer });
+                markdownContainer.innerHTML = htmlContent;
+
+                // Highlight code blocks
+                markdownContainer.querySelectorAll('pre code').forEach((block) => {
+                    if (!block.parentElement.classList.contains('mermaid')) {
+                        hljs.highlightElement(block);
+                    }
+                });
+
+                // Render Mermaid Diagrams
+                try {
+                    // Reset mermaid to avoid issues with re-init
+                    mermaid.init(undefined, markdownContainer.querySelectorAll(".mermaid"));
+                } catch (err) {
+                    console.error("Mermaid error:", err);
+                }
+
+                // Scroll ke atas
+                document.getElementById('contentMain').scrollTop = 0;
+            }
+
+            // inisialisasi
+            buildSidebar();
+            setActiveFile('README.md');
+        })();
+    </script>
+</body>
+
+</html>

@@ -17,7 +17,7 @@ Microcontroller Course Bank
   <li>Komunikasi Data Serial, Sensor dan Aktuator</li>
   <ul>
     <li>Rangkaian Komunikasi Serial Sensor dan Aktuator: <a href="https://www.tinkercad.com/things/eJKRDjfadeZ-komunikasi-serial-sensor-dan-aktuator">Tinkercad</a></li>
-    <li>-</li>
+    <li>Penjelasan Komunikasi Serial Sensor dan Aktuator: <a href="https://www.youtube.com/playlist?list=PLaC2GD6EmthWsrz53AchCrQu5HNMtjvYC">Youtube</a></li>
   </ul>
   <br>
   <li>ADC, DAC, dan PWM</li>
@@ -39,24 +39,24 @@ Microcontroller Course Bank
   <li>Komunikasi Data HTTP</li>
   <ul>
     <li>Penjelasan Komunikasi Data HTTP: <a href="https://youtu.be/5j466VQMZO4?si=0sdtldkEQWhtTDg9">Youtube</a></li> 
-    <li>Proyek Komunikasi Data HTTP: <a href="https://github.com/Muhammad-Ikhwan-Fathulloh/Smarthome-Rest-API">Youtube</a></li> 
+    <li>Proyek Komunikasi Data HTTP: <a href="https://github.com/Muhammad-Ikhwan-Fathulloh/Smarthome-Rest-API">Proyek</a></li> 
   </ul>
   <br>
   <li>Komunikasi Data MQTT</li>
   <ul>
     <li>Penjelasan Komunikasi Data MQTT: <a href="https://youtu.be/5j466VQMZO4?si=0sdtldkEQWhtTDg9">Youtube</a></li> 
-    <li>Proyek Komunikasi Data MQTT: <a href="https://github.com/Muhammad-Ikhwan-Fathulloh/Smarthome-MQTT">Youtube</a></li> 
+    <li>Proyek Komunikasi Data MQTT: <a href="https://github.com/Muhammad-Ikhwan-Fathulloh/Smarthome-MQTT">Proyek</a></li> 
   </ul>
   <br>
   <li>Real Time Operating System</li>
   <ul>
     <li>Penjelasan Real Time Operating System: <a href="https://www.youtube.com/playlist?list=PLaC2GD6EmthVB7f7ZJjgGAU9K3ylxzDMJ">Youtube</a></li> 
-    <li>Proyek Real Time Operating System: <a href="https://github.com/Muhammad-Ikhwan-Fathulloh/ESP32-dengan-Free-RTOS">Youtube</a></li> 
+    <li>Proyek Real Time Operating System: <a href="https://github.com/Muhammad-Ikhwan-Fathulloh/ESP32-dengan-Free-RTOS">Proyek</a></li> 
   </ul>
   <li>Artificial Intelegent ESP32</li>
   <ul>
     <li>Penjelasan Artificial Intelegent ESP32: <a href="https://www.youtube.com/playlist?list=PLaC2GD6EmthVkj6hL_Aq0lwUAtMNX4Nla">Youtube</a></li> 
-    <li>Proyek Artificial Intelegent ESP32: <a href="https://github.com/Muhammad-Ikhwan-Fathulloh/BMI-Prediction-with-ESP32">Youtube</a></li> 
+    <li>Proyek Artificial Intelegent ESP32: <a href="https://github.com/Muhammad-Ikhwan-Fathulloh/BMI-Prediction-with-ESP32">Proyek</a></li> 
   </ul>
   <br>
 </ul>

@@ -15,6 +15,24 @@ Setelah mengikuti pertemuan ini, mahasiswa diharapkan mampu:
 
 ---
 
+### 🔄 Alur Kontrol Arm Robotik
+
+```mermaid
+graph TD
+    U[User Terminal/Code] -->|Command: Angle| E[ESP32 / Arduino]
+    E -->|PWM Signal| S1[Servo 1: Base]
+    E -->|PWM Signal| S2[Servo 2: Elbow]
+    E -->|PWM Signal| S3[Servo 3: Gripper]
+    
+    subgraph Power Management
+    P[Power Supply 5V/6V] --> S1
+    P --> S2
+    P --> S3
+    end
+```
+
+---
+
 ## 📚 Materi Pokok
 
 ### 1. Dasar Robot Arm

@@ -15,6 +15,23 @@ Setelah mengikuti pertemuan ini, mahasiswa diharapkan mampu:
 
 ---
 
+### 🔄 Alur Kerja Blynk
+
+```mermaid
+graph LR
+    A[ESP32 / Hardware] <-->|WiFi/GSM| B(Blynk Cloud Server)
+    B <-->|Internet| C[Aplikasi Blynk / Smartphone]
+    
+    subgraph Data Flow
+    A -- "Send Sensor Data" --> B
+    B -- "Display on Widget" --> C
+    C -- "Push Button" --> B
+    B -- "Send Command" --> A
+    end
+```
+
+---
+
 ## 📚 Materi Pokok
 
 ### 1. Pengenalan Blynk IoT

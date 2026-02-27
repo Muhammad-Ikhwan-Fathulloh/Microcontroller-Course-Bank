@@ -15,6 +15,19 @@ Setelah mengikuti pertemuan ini, mahasiswa diharapkan mampu:
 
 ---
 
+### 🔄 TinyML Workflow
+
+```mermaid
+graph LR
+    A[Data Collection] --> B[Model Training - PC/Cloud]
+    B --> C[Model Conversion - TFLite]
+    C --> D[Model.h - C++ Header]
+    D --> E[Deployment - ESP32]
+    E --> F[Inference - Real-time Prediction]
+```
+
+---
+
 ## 📚 Materi Pokok
 
 ### 1. Apa itu Edge AI?

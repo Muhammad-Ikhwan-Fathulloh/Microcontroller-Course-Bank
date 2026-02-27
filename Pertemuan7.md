@@ -15,6 +15,27 @@ Setelah mengikuti pertemuan ini, mahasiswa diharapkan mampu:
 
 ---
 
+### 🔄 Alur HTTP REST API
+
+```mermaid
+sequenceDiagram
+    participant E as ESP32 (Client)
+    participant S as Web Server (API)
+    participant D as Database
+    
+    E->>S: HTTP POST (Data Sensor + API Key)
+    S->>D: Simpan Data
+    D-->>S: Sukses
+    S-->>E: 200 OK / Response JSON
+    
+    E->>S: HTTP GET (Request Status)
+    S->>D: Ambil Data Terakhir
+    D-->>S: Data Status
+    S-->>E: 200 OK + JSON (Status: ON/OFF)
+```
+
+---
+
 ## 📚 Materi Pokok
 
 ### 1. Konsep REST API

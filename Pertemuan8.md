@@ -15,6 +15,22 @@ Setelah mengikuti pertemuan ini, mahasiswa diharapkan mampu:
 
 ---
 
+### 🔄 Arsitektur MQTT Pub/Sub
+
+```mermaid
+graph TD
+    P[Publisher: ESP32 Sensor] -->|Publish: rumah/suhu| B(MQTT Broker)
+    B -->|Forward Message| S1[Subscriber: Dashboard Web]
+    B -->|Forward Message| S2[Subscriber: Mobile App]
+    
+    subgraph Control Flow
+    C[Publisher: User App] -->|Publish: rumah/lampu| B
+    B -->|Forward Command| R[Subscriber: ESP32 Lampu]
+    end
+```
+
+---
+
 ## 📚 Materi Pokok
 
 ### 1. Mengenal MQTT

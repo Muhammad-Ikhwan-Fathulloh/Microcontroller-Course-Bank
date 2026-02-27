@@ -15,6 +15,23 @@ Setelah mengikuti pertemuan ini, mahasiswa diharapkan mampu:
 
 ---
 
+### 🔄 FreeRTOS Task Management
+
+```mermaid
+graph TD
+    S[Scheduler] --> T1[Task 1: Read Sensor]
+    S --> T2[Task 2: Update LCD]
+    S --> T3[Task 3: WiFi Upload]
+    
+    subgraph Execution
+    T1 -.->|Core 0| C0(Processor Core 0)
+    T2 -.->|Core 1| C1(Processor Core 1)
+    T3 -.->|Core 1| C1
+    end
+```
+
+---
+
 ## 📚 Materi Pokok
 
 ### 1. Apa itu RTOS?

@@ -15,6 +15,22 @@ Setelah mengikuti pertemuan ini, mahasiswa diharapkan mampu:
 
 ---
 
+### 🔄 Alur Kontrol KoKuBot
+
+```mermaid
+graph LR
+    U[User Dashboard] -->|Publish: robot/control| B(MQTT Broker)
+    B -->|Subscribe: robot/control| R[ESP32 Robot]
+    R --> D[Driver Motor L298N]
+    D --> M[4x Omni Wheels]
+    
+    M -.->|Feedback| R
+    R -- "Publish Status" --> B
+    B -- "Show on UI" --> U
+```
+
+---
+
 ## 📚 Materi Pokok
 
 ### 1. Pengenalan KoKuBot (Omniwheel Robot)

@@ -371,3 +371,4 @@ void loop() {
 - 🌐 [Dokumentasi Resmi ESP32 - Espressif](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/)
 - 📄 [Arduino ESP32 GitHub](https://github.com/espressif/arduino-esp32)
 - 📚 [Install ESP32](https://randomnerdtutorials.com/installing-the-esp32-board-in-arduino-ide-windows-instructions/)
+- 📚 [Dokumentasi Wemos ESP32 D1 R32](https://makerselectronics.com/wp-content/uploads/2022/09/2_Pinout_D1_R32.png.webp)

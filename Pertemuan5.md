@@ -94,6 +94,10 @@ Pin khusus ESP32:
 - GPIO 26  : DAC2
 ```
 
+#### C. Wemos D1 R32 (ESPDuino-32)
+
+![Wemos ESP32 D1 R32](https://makerselectronics.com/wp-content/uploads/2022/09/2_Pinout_D1_R32.png.webp)
+
 ---
 
 ### 3. Instalasi ESP32 di Arduino IDE

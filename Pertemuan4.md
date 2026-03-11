@@ -150,6 +150,8 @@ Pin yang mendukung PWM ditandai dengan tanda **~** pada board:
 
 #### D. Program LED Dimmer dengan PWM
 
+<iframe width="725" height="453" src="https://www.tinkercad.com/embed/8uAx2gaJpfw?editbtn=1" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+
 ```cpp
 const int ledPin = 9;  // Pin PWM
 
@@ -178,6 +180,8 @@ void loop() {
 ### 5. Aplikasi: ADC + PWM (Potensiometer → LED)
 
 **Deskripsi:** Potensiometer mengatur kecerahan LED menggunakan ADC dan PWM.
+
+<iframe width="725" height="453" src="https://www.tinkercad.com/embed/5KVcqDxKVPd?editbtn=1" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
 
 ```cpp
 const int potPin = A0;   // Potensiometer di A0

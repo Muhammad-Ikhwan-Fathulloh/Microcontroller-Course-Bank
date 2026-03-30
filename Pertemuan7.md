@@ -137,3 +137,4 @@ Proyek Smarthome dengan REST API biasanya melibatkan:
 
 - 📁 [Proyek GitHub - Smarthome dengan REST API](https://github.com/Muhammad-Ikhwan-Fathulloh/Smarthome-Rest-API)
 - 📄 [Random Nerd Tutorials - ESP32 HTTP GET/POST](https://randomnerdtutorials.com/esp32-http-get-post-arduino/)
+- 📄 [Gist Github ESP32 HTTP](https://gist.github.com/Muhammad-Ikhwan-Fathulloh/0e6172d4cdfde110c594b579815940f5)

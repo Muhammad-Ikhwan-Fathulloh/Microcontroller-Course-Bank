@@ -144,3 +144,4 @@ MQTT memiliki tiga tingkat jaminan pengiriman pesan:
 - 📁 [Proyek GitHub - Smarthome dengan MQTT](https://github.com/Muhammad-Ikhwan-Fathulloh/Smarthome-MQTT)
 - 🌐 [Official MQTT Website](https://mqtt.org/)
 - 📄 [Random Nerd Tutorials - ESP32 MQTT Guide](https://randomnerdtutorials.com/esp32-mqtt-publish-subscribe-arduino-ide/)
+- 📄 [Gist Github ESP32 MQTT](https://gist.github.com/Muhammad-Ikhwan-Fathulloh/7196683bc535878632c4da33d91e787f)

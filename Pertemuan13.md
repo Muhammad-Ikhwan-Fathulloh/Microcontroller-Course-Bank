@@ -1,4 +1,4 @@
-# Pertemuan 13: 🔐 Keamanan Komunikasi Data IoT (MQTT) - Panduan Lengkap
+# Pertemuan 13: 🔐 Keamanan Komunikasi Data IoT (MQTT)
 
 ## 📋 Daftar Isi
 1. [Pendahuluan & Latar Belakang](#pendahuluan)

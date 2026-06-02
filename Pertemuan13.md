@@ -3,7 +3,7 @@
 ## 📋 Daftar Isi
 1. [Pendahuluan & Latar Belakang](#pendahuluan)
 2. [Teori Kriptografi untuk IoT](#teori)
-3. [Persiapan Lingkungan Pengujian dengan Shiftr.io](#persiapan)
+3. [Persiapan Lingkungan Pengujian](#persiapan)
 4. [Implementasi ESP32 (Arduino) - Step by Step](#esp32)
 5. [Implementasi Dashboard Web (JavaScript) - Step by Step](#web)
 6. [Pengujian dan Verifikasi](#pengujian)
@@ -15,12 +15,12 @@
 
 ### 1.1. Kerentanan MQTT
 
-Protokol MQTT (Message Queuing Telemetry Transport) secara default **tidak menyediakan enkripsi** untuk payload pesan . Data dikirimkan dalam bentuk *plain text*, sehingga siapa pun yang berada dalam jaringan yang sama dapat melakukan *sniffing* menggunakan tools seperti Wireshark atau MQTT Explorer untuk melihat data sensor dan perintah yang dikirimkan.
+Protokol MQTT (Message Queuing Telemetry Transport) secara default **tidak menyediakan enkripsi** untuk payload pesan. Data dikirimkan dalam bentuk *plain text*, sehingga siapa pun yang berada dalam jaringan yang sama dapat melakukan *sniffing* menggunakan tools seperti Wireshark atau MQTT Explorer untuk melihat data sensor dan perintah yang dikirimkan.
 
 ### 1.2. Mengapa AES?
 
-**Advanced Encryption Standard (AES)** adalah standar enkripsi simetris yang ditetapkan oleh NIST (National Institute of Standards and Technology) dalam publikasi **FIPS PUB 197** . AES dipilih karena:
-- **Kecepatan tinggi** - ESP32 memiliki akselerator hardware AES yang dapat mengenkripsi dalam waktu **17-18 mikrodetik** per blok 
+**Advanced Encryption Standard (AES)** adalah standar enkripsi simetris yang ditetapkan oleh NIST (National Institute of Standards and Technology) dalam publikasi **FIPS PUB 197**. AES dipilih karena:
+- **Kecepatan tinggi** - ESP32 memiliki akselerator hardware AES yang dapat mengenkripsi dalam waktu **17-18 mikrodetik** per blok
 - **Keamanan teruji** - Digunakan oleh pemerintah AS untuk informasi terklasifikasi
 - **Efisiensi** - Cocok untuk perangkat dengan sumber daya terbatas seperti mikrokontroler
 
@@ -30,7 +30,7 @@ Protokol MQTT (Message Queuing Telemetry Transport) secara default **tidak menye
 
 ### 2.1. Mode ECB (Electronic Codebook)
 
-ECB adalah mode operasi AES yang paling sederhana. Setiap blok 16-byte dienkripsi secara independen dengan kunci yang sama .
+ECB adalah mode operasi AES yang paling sederhana. Setiap blok 16-byte dienkripsi secara independen dengan kunci yang sama.
 
 **Kelemahan ECB**: Pola yang sama pada plaintext akan menghasilkan ciphertext yang sama, sehingga kurang aman untuk data dengan banyak pengulangan.
 
@@ -41,7 +41,7 @@ ECB adalah mode operasi AES yang paling sederhana. Setiap blok 16-byte dienkrips
 
 ### 2.2. PKCS#7 Padding
 
-Karena AES hanya dapat mengenkripsi data yang panjangnya kelipatan 16 byte, padding diperlukan untuk data dengan panjang variabel .
+Karena AES hanya dapat mengenkripsi data yang panjangnya kelipatan 16 byte, padding diperlukan untuk data dengan panjang variabel.
 
 **Cara kerja PKCS#7**:
 - Jika data tersisa `n` byte dari kelipatan 16, tambahkan `n` byte dengan nilai `n`
@@ -54,11 +54,11 @@ Setelah padding (16):  [41][42][43][44][45][0B][0B][0B][0B][0B][0B][0B][0B][0B][
 
 ### 2.3. Hex Encoding
 
-Hasil enkripsi AES berupa data biner (0-255) yang tidak dapat langsung dikirim melalui MQTT. Konversi ke **hex string** (2 karakter per byte) memastikan data tetap utuh selama transmisi .
+Hasil enkripsi AES berupa data biner (0-255) yang tidak dapat langsung dikirim melalui MQTT. Konversi ke **hex string** (2 karakter per byte) memastikan data tetap utuh selama transmisi.
 
 ---
 
-## 3. Persiapan Lingkungan Pengujian dengan Shiftr.io <a name="persiapan"></a>
+## 3. Persiapan Lingkungan Pengujian <a name="persiapan"></a>
 
 ### 3.1. Mengapa Shiftr.io?
 
@@ -79,7 +79,7 @@ Shiftr.io menyediakan:
 
 ### 3.3. Visualisasi Dashboard
 
-Shiftr.io menyediakan tampilan visual yang menunjukkan setiap client sebagai titik yang terhubung. Pesan yang dikirim akan terlihat mengalir antar titik .
+Shiftr.io menyediakan tampilan visual yang menunjukkan setiap client sebagai titik yang terhubung. Pesan yang dikirim akan terlihat mengalir antar titik.
 
 ---
 
@@ -108,12 +108,12 @@ const char* mqtt_password = "PASSWORD_SHIFTR";              // Dari shiftr.io
 const char* mqtt_topic = "sensor/data";
 
 // === KUNCI AES (WAJIB 16 KARAKTER) ===
-const char* aesKey = "KunciAES128Bit!!";    // 16 byte (128 bit)
+const uint8_t aesKey[] = "KunciAES128Bit!!";    // 16 byte (128 bit)
 ```
 
 ### 4.3. Fungsi Padding PKCS#7
 
-Berdasarkan implementasi dari dokumentasi ESP-IDF :
+Berdasarkan implementasi dari dokumentasi ESP-IDF:
 
 ```cpp
 /**
@@ -166,7 +166,7 @@ int pkcs7_unpad(uint8_t *data, int data_len) {
 
 ### 4.4. Fungsi Enkripsi AES-128-ECB
 
-Menggunakan mbedtls library yang terintegrasi di ESP32 :
+Menggunakan mbedtls library yang terintegrasi di ESP32:
 
 ```cpp
 /**
@@ -197,12 +197,16 @@ int aes_encrypt(const uint8_t *plaintext, int plaintext_len,
         return -1;
     }
     
-    // Step 4: Enkripsi ECB
-    // Parameter: context, mode, panjang, input, output
-    ret = mbedtls_aes_crypt_ecb(&aes_ctx, MBEDTLS_AES_ENCRYPT, padded, padded);
-    if (ret != 0) {
-        mbedtls_aes_free(&aes_ctx);
-        return -1;
+    // Step 4: Enkripsi ECB untuk semua blok
+    // Karena mbedtls_aes_crypt_ecb hanya memproses satu blok (16 byte),
+    // kita perlu melakukan iterasi untuk data yang lebih panjang
+    for (int i = 0; i < padded_len; i += 16) {
+        ret = mbedtls_aes_crypt_ecb(&aes_ctx, MBEDTLS_AES_ENCRYPT, 
+                                     padded + i, padded + i);
+        if (ret != 0) {
+            mbedtls_aes_free(&aes_ctx);
+            return -1;
+        }
     }
     
     mbedtls_aes_free(&aes_ctx);
@@ -213,15 +217,6 @@ int aes_encrypt(const uint8_t *plaintext, int plaintext_len,
     }
     
     return padded_len * 2;  // Panjang hex string
-}
-```
-
-**Catatan Penting**: Kode di atas menggunakan `mbedtls_aes_crypt_ecb` yang hanya mengenkripsi satu blok. Untuk data multi-blok, perlu iterasi:
-
-```cpp
-// Untuk data > 16 byte, enkripsi per blok
-for (int i = 0; i < padded_len; i += 16) {
-    mbedtls_aes_crypt_ecb(&aes_ctx, MBEDTLS_AES_ENCRYPT, padded + i, padded + i);
 }
 ```
 
@@ -262,11 +257,14 @@ int aes_decrypt(const char *ciphertext_hex, const uint8_t *key,
         return -1;
     }
     
-    // Step 4: Dekripsi ECB
-    ret = mbedtls_aes_crypt_ecb(&aes_ctx, MBEDTLS_AES_DECRYPT, ciphertext, plaintext);
-    if (ret != 0) {
-        mbedtls_aes_free(&aes_ctx);
-        return -1;
+    // Step 4: Dekripsi ECB untuk semua blok
+    for (int i = 0; i < cipher_len; i += 16) {
+        ret = mbedtls_aes_crypt_ecb(&aes_ctx, MBEDTLS_AES_DECRYPT, 
+                                     ciphertext + i, plaintext + i);
+        if (ret != 0) {
+            mbedtls_aes_free(&aes_ctx);
+            return -1;
+        }
     }
     
     mbedtls_aes_free(&aes_ctx);
@@ -276,7 +274,7 @@ int aes_decrypt(const char *ciphertext_hex, const uint8_t *key,
 }
 ```
 
-### 4.6. Kode Lengkap ESP32
+### 4.6. Kode Lengkap ESP32 - Program Utama
 
 ```cpp
 #include <WiFi.h>
@@ -292,7 +290,7 @@ const char* mqtt_user = "username_shiftr";
 const char* mqtt_pass = "password_shiftr";
 const char* mqtt_topic = "sensor/data";
 
-const uint8_t aes_key[16] = "Kunci16ByteAnda!";  // 16 byte key
+const uint8_t aesKey[] = "KunciAES128Bit!!";  // 16 byte key
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -301,9 +299,11 @@ PubSubClient client(espClient);
 int pkcs7_pad(const uint8_t *input, int input_len, uint8_t *output) { ... }
 int pkcs7_unpad(uint8_t *data, int data_len) { ... }
 
-// === Fungsi Enkripsi (sama seperti di atas) ===
+// === Fungsi Enkripsi/Dekripsi (sama seperti di atas) ===
 int aes_encrypt(const uint8_t *plaintext, int plaintext_len, 
                 const uint8_t *key, char *ciphertext, int ciphertext_max) { ... }
+int aes_decrypt(const char *ciphertext_hex, const uint8_t *key,
+                uint8_t *plaintext, int plaintext_max) { ... }
 
 // === Koneksi WiFi ===
 void setup_wifi() {
@@ -334,14 +334,12 @@ void callback(char* topic, byte* payload, unsigned int length) {
     
     // Dekripsi pesan
     uint8_t plaintext[128];
-    int plain_len = aes_decrypt(ciphertext_hex, aes_key, plaintext, sizeof(plaintext));
+    int plain_len = aes_decrypt(ciphertext_hex, aesKey, plaintext, sizeof(plaintext));
     
     if (plain_len > 0) {
+        plaintext[plain_len] = '\0';
         Serial.print("Decrypted: ");
-        for (int i = 0; i < plain_len; i++) {
-            Serial.print((char)plaintext[i]);
-        }
-        Serial.println();
+        Serial.println((char*)plaintext);
     } else {
         Serial.println("Decryption failed!");
     }
@@ -351,12 +349,14 @@ void callback(char* topic, byte* payload, unsigned int length) {
 void send_encrypted(const char* message) {
     char ciphertext_hex[256];
     int hex_len = aes_encrypt((const uint8_t*)message, strlen(message), 
-                               aes_key, ciphertext_hex, sizeof(ciphertext_hex));
+                               aesKey, ciphertext_hex, sizeof(ciphertext_hex));
     
     if (hex_len > 0) {
         client.publish(mqtt_topic, ciphertext_hex);
         Serial.print("Sent encrypted: ");
         Serial.println(ciphertext_hex);
+        Serial.print("Plaintext: ");
+        Serial.println(message);
     } else {
         Serial.println("Encryption failed!");
     }
@@ -365,6 +365,8 @@ void send_encrypted(const char* message) {
 // === Setup ===
 void setup() {
     Serial.begin(115200);
+    delay(1000);
+    
     setup_wifi();
     
     client.setServer(mqtt_server, 1883);
@@ -400,13 +402,62 @@ void loop() {
 }
 ```
 
+### 4.7. Program Uji Mandiri (Tanpa MQTT)
+
+Untuk menguji fungsi enkripsi/dekripsi sebelum menggunakan MQTT:
+
+```cpp
+void setup() {
+    Serial.begin(115200);
+    delay(1000);
+    
+    const char* message = "Hello World";
+    char ciphertext_hex[256];
+    uint8_t decrypted_text[256];
+
+    Serial.println("--- PROSES ENKRIPSI ---");
+    Serial.print("Plaintext asli: ");
+    Serial.println(message);
+    
+    int hex_len = aes_encrypt((const uint8_t*)message, strlen(message), 
+                               aesKey, ciphertext_hex, sizeof(ciphertext_hex));
+    
+    if (hex_len > 0) {
+        Serial.print("Ciphertext (Hex): ");
+        Serial.println(ciphertext_hex);
+        Serial.print("Panjang Hex: ");
+        Serial.println(hex_len);
+    } else {
+        Serial.println("Enkripsi Gagal!");
+        return;
+    }
+
+    Serial.println("\n--- PROSES DEKRIPSI ---");
+    
+    int decrypted_len = aes_decrypt(ciphertext_hex, aesKey, 
+                                     decrypted_text, sizeof(decrypted_text));
+    
+    if (decrypted_len > 0) {
+        decrypted_text[decrypted_len] = '\0';
+        Serial.print("Hasil Dekripsi: ");
+        Serial.println((char*)decrypted_text);
+        Serial.print("Panjang Data Asli: ");
+        Serial.println(decrypted_len);
+    } else {
+        Serial.println("Dekripsi Gagal!");
+    }
+}
+
+void loop() {}
+```
+
 ---
 
 ## 5. Implementasi Dashboard Web (JavaScript) - Step by Step <a name="web"></a>
 
 ### 5.1. Library yang Diperlukan
 
-Untuk dekripsi di sisi web, kita menggunakan **CryptoJS** library yang mendukung AES-ECB dengan PKCS#7 padding :
+Untuk dekripsi di sisi web, kita menggunakan **CryptoJS** library yang mendukung AES-ECB dengan PKCS#7 padding:
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
@@ -424,7 +475,7 @@ const mqttConfig = {
 };
 
 // Kunci AES (HARUS SAMA dengan ESP32)
-const aesKey = "Kunci16ByteAnda!";
+const aesKey = "KunciAES128Bit!!";
 
 // Koneksi MQTT
 const client = mqtt.connect(mqttConfig.host, {
@@ -452,7 +503,7 @@ client.on('message', (topic, message) => {
 
 ### 5.3. Fungsi Dekripsi AES-ECB dengan CryptoJS
 
-Berdasarkan dokumentasi CryptoJS :
+Berdasarkan dokumentasi CryptoJS:
 
 ```javascript
 /**
@@ -515,55 +566,62 @@ function encryptAES(plaintext, key) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .container { max-width: 800px; margin: auto; }
-        .card { border: 1px solid #ccc; border-radius: 8px; padding: 20px; margin: 10px 0; }
-        .suhu { font-size: 48px; color: #e74c3c; }
-        .kelembaban { font-size: 48px; color: #3498db; }
-        .log { background: #f5f5f5; height: 300px; overflow-y: scroll; font-family: monospace; padding: 10px; }
-        .encrypted { color: #e67e22; }
-        .decrypted { color: #27ae60; }
-        button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
-        input { padding: 8px; width: 300px; margin-right: 10px; }
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f0f2f5; }
+        .container { max-width: 900px; margin: auto; }
+        .card { background: white; border-radius: 12px; padding: 20px; margin: 15px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .suhu { font-size: 56px; color: #e74c3c; font-weight: bold; }
+        .kelembaban { font-size: 56px; color: #3498db; font-weight: bold; }
+        .log { background: #1e1e1e; color: #d4d4d4; height: 350px; overflow-y: scroll; font-family: 'Courier New', monospace; padding: 12px; border-radius: 8px; font-size: 12px; }
+        .encrypted { color: #d19a66; }
+        .decrypted { color: #6a9955; }
+        .error { color: #f48771; }
+        .info { color: #569cd6; }
+        button { padding: 12px 24px; font-size: 16px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 6px; }
+        button:hover { background: #0056b3; }
+        input { padding: 10px; width: 300px; margin-right: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px; }
+        h1 { color: #333; }
+        .status { padding: 8px 16px; border-radius: 20px; font-size: 14px; display: inline-block; }
+        .status.connected { background: #d4edda; color: #155724; }
+        .status.disconnected { background: #f8d7da; color: #721c24; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>🔐 IoT Dashboard - Komunikasi Aman</h1>
+        <div id="status" class="status disconnected">Disconnected</div>
         
         <div class="card">
-            <h2>Data Sensor Real-time</h2>
-            <div>
-                <span class="suhu" id="suhu">--</span> °C
-            </div>
-            <div>
-                <span class="kelembaban" id="kelembaban">--</span> %
+            <h2>📊 Data Sensor Real-time</h2>
+            <div style="display: flex; gap: 40px;">
+                <div>
+                    <span class="suhu" id="suhu">--</span> °C
+                </div>
+                <div>
+                    <span class="kelembaban" id="kelembaban">--</span> %
+                </div>
             </div>
         </div>
         
         <div class="card">
-            <h2>Kirim Perintah ke ESP32</h2>
+            <h2>📨 Kirim Perintah ke ESP32</h2>
             <input type="text" id="commandInput" placeholder="Contoh: LED_ON atau LED_OFF">
             <button onclick="sendCommand()">Kirim (Terenskripsi)</button>
         </div>
         
         <div class="card">
-            <h2>Log Pesan</h2>
+            <h2>📜 Log Pesan</h2>
             <div class="log" id="log"></div>
         </div>
     </div>
 
     <script>
         // === KONFIGURASI ===
-        const mqttHost = 'wss://kuliah-iot.cloud.shiftr.io:443/mqtt';
+        const mqttHost = 'wss://namespace-anda.cloud.shiftr.io:443/mqtt';
         const mqttUser = 'USERNAME_SHIFTR';
         const mqttPass = 'PASSWORD_SHIFTR';
-        const aesKey = "Kunci16ByteAnda!";  // SAMA dengan ESP32
+        const aesKey = "KunciAES128Bit!!";  // SAMA dengan ESP32
         
-        const client = mqtt.connect(mqttHost, {
-            username: mqttUser,
-            password: mqttPass
-        });
+        let client = null;
         
         // === FUNGSI DEKRIPSI ===
         function decryptAES(ciphertextHex, key) {
@@ -596,14 +654,14 @@ function encryptAES(plaintext, key) {
         function updateDashboard(decryptedData) {
             try {
                 const data = JSON.parse(decryptedData);
-                if (data.suhu) document.getElementById('suhu').innerText = data.suhu;
-                if (data.kelembaban) document.getElementById('kelembaban').innerText = data.kelembaban;
+                if (data.suhu) document.getElementById('suhu').innerHTML = data.suhu;
+                if (data.kelembaban) document.getElementById('kelembaban').innerHTML = data.kelembaban;
             } catch (e) {
                 // Bukan JSON, mungkin perintah atau data lain
             }
         }
         
-        // === LOG KE CONSOLE WEB ===
+        // === LOG KE DASHBOARD ===
         function addLog(message, type = 'info') {
             const logDiv = document.getElementById('log');
             const entry = document.createElement('div');
@@ -613,44 +671,79 @@ function encryptAES(plaintext, key) {
             logDiv.scrollTop = logDiv.scrollHeight;
         }
         
+        // === UPDATE STATUS ===
+        function updateStatus(connected) {
+            const statusDiv = document.getElementById('status');
+            if (connected) {
+                statusDiv.className = 'status connected';
+                statusDiv.innerHTML = '✅ Connected';
+            } else {
+                statusDiv.className = 'status disconnected';
+                statusDiv.innerHTML = '❌ Disconnected';
+            }
+        }
+        
         // === KIRIM PERINTAH ===
         function sendCommand() {
             const command = document.getElementById('commandInput').value;
             if (!command) return;
             
+            if (!client || !client.connected) {
+                addLog('MQTT not connected!', 'error');
+                return;
+            }
+            
             const encrypted = encryptAES(command, aesKey);
             client.publish('command', encrypted);
-            addLog(`Sent (encrypted): ${encrypted}`, 'encrypted');
+            addLog(`Sent (encrypted): ${encrypted.substring(0, 50)}...`, 'encrypted');
             addLog(`Sent (decrypted): ${command}`, 'decrypted');
             document.getElementById('commandInput').value = '';
         }
         
         // === MQTT EVENT HANDLER ===
-        client.on('connect', () => {
-            addLog('Connected to Shiftr.io MQTT broker', 'info');
-            client.subscribe('sensor/data');
-            client.subscribe('command');
-        });
-        
-        client.on('message', (topic, message) => {
-            const ciphertext = message.toString();
-            addLog(`Received from ${topic} (encrypted): ${ciphertext.substring(0, 50)}...`, 'encrypted');
+        function connectMQTT() {
+            client = mqtt.connect(mqttHost, {
+                username: mqttUser,
+                password: mqttPass
+            });
             
-            const decrypted = decryptAES(ciphertext, aesKey);
-            if (decrypted) {
-                addLog(`Received from ${topic} (decrypted): ${decrypted}`, 'decrypted');
+            client.on('connect', () => {
+                addLog('Connected to Shiftr.io MQTT broker', 'info');
+                updateStatus(true);
+                client.subscribe('sensor/data');
+                client.subscribe('command');
+            });
+            
+            client.on('message', (topic, message) => {
+                const ciphertext = message.toString();
+                addLog(`Received from ${topic} (encrypted): ${ciphertext.substring(0, 50)}...`, 'encrypted');
                 
-                if (topic === 'sensor/data') {
-                    updateDashboard(decrypted);
+                const decrypted = decryptAES(ciphertext, aesKey);
+                if (decrypted) {
+                    addLog(`Received from ${topic} (decrypted): ${decrypted}`, 'decrypted');
+                    
+                    if (topic === 'sensor/data') {
+                        updateDashboard(decrypted);
+                    }
+                } else {
+                    addLog(`Failed to decrypt message from ${topic}`, 'error');
                 }
-            } else {
-                addLog(`Failed to decrypt message from ${topic}`, 'error');
-            }
-        });
+            });
+            
+            client.on('error', (err) => {
+                addLog(`MQTT Error: ${err}`, 'error');
+                updateStatus(false);
+            });
+            
+            client.on('close', () => {
+                addLog('MQTT connection closed', 'info');
+                updateStatus(false);
+                setTimeout(connectMQTT, 5000);
+            });
+        }
         
-        client.on('error', (err) => {
-            addLog(`MQTT Error: ${err}`, 'error');
-        });
+        // Start connection
+        connectMQTT();
     </script>
 </body>
 </html>
@@ -683,13 +776,39 @@ Sensor Data (plaintext):  Tidak terbaca!
 
 ### 6.3. Verifikasi Padding Error
 
-Jika kunci salah, sistem akan menghasilkan **padding error** karena byte terakhir dari hasil dekripsi tidak valid :
+Jika kunci salah, sistem akan menghasilkan **padding error** karena byte terakhir dari hasil dekripsi tidak valid:
 
 ```
 Decryption failed! (Bad padding)
 ```
 
 Ini adalah mekanisme keamanan - attacker tidak bisa membedakan antara "kunci salah" dan "data rusak" (dengan probabilitas 1/256 false positive).
+
+### 6.4. Alur Pengujian Lengkap
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   ESP32     │     │  Shiftr.io  │     │ Dashboard   │
+│  (Publisher)│     │   Broker    │     │ (Subscriber)│
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                   │                   │
+       │ 1. "Hello World"  │                   │
+       │    (Plaintext)     │                   │
+       │         ↓          │                   │
+       │ 2. AES Enkripsi    │                   │
+       │    ↓               │                   │
+       │ "a1b2c3..."        │                   │
+       │    (Ciphertext)     │                   │
+       │         ↓          │                   │
+       │ 3. Publish MQTT ──────────────────────→│
+       │                   │                   │
+       │                   │ 4. Forward ───────→│
+       │                   │                   ↓
+       │                   │             5. AES Dekripsi
+       │                   │                   ↓
+       │                   │             6. "Hello World"
+       │                   │                (Plaintext)
+```
 
 ---
 
@@ -699,23 +818,18 @@ Ini adalah mekanisme keamanan - attacker tidak bisa membedakan antara "kunci sal
 
 | Standar | Judul | Publikasi |
 |---------|-------|-----------|
-| **FIPS PUB 197** | Advanced Encryption Standard (AES) | NIST, 2001  |
-| **NIST SP 800-38A** | Recommendation for Block Cipher Modes of Operation | NIST, 2001  |
+| **FIPS PUB 197** | Advanced Encryption Standard (AES) | NIST, 2001 |
+| **NIST SP 800-38A** | Recommendation for Block Cipher Modes of Operation | NIST, 2001 |
 | **RFC 2315** | PKCS #7: Cryptographic Message Syntax | IETF, 1998 |
 
 ### 7.2. Dokumentasi Library
 
 | Library | Sumber | Keterangan |
 |---------|--------|------------|
-| **Mbed TLS** | [https://github.com/Mbed-TLS/mbedtls](https://github.com/Mbed-TLS/mbedtls) | Library kriptografi untuk embedded system  |
-| **CryptoJS** | [https://code.google.com/archive/p/crypto-js/](https://code.google.com/archive/p/crypto-js/) | Library kriptografi JavaScript  |
-| **PubSubClient** | [https://github.com/knolleary/pubsubclient](https://github.com/knolleary/pubsubclient) | MQTT client untuk Arduino |
-| **Shiftr.io** | [https://www.shiftr.io/docs/](https://www.shiftr.io/docs/) | Dokumentasi broker MQTT visual  |
-
-### 7.3. Implementasi Referensi
-
-- **ESP32-AES-CBC-LoRa**: [https://github.com/martinius96/AES-CBC-LoRa-ESP32](https://github.com/martinius96/AES-CBC-LoRa-ESP32) - Implementasi AES-CBC pada ESP32 
-- **mqtt-examples**: [https://tigoe.github.io/mqtt-examples/](https://tigoe.github.io/mqtt-examples/) - Contoh MQTT dengan berbagai platform 
+| **Mbed TLS** | https://github.com/Mbed-TLS/mbedtls | Library kriptografi untuk embedded system |
+| **CryptoJS** | https://code.google.com/archive/p/crypto-js/ | Library kriptografi JavaScript |
+| **PubSubClient** | https://github.com/knolleary/pubsubclient | MQTT client untuk Arduino |
+| **Shiftr.io** | https://www.shiftr.io/docs/ | Dokumentasi broker MQTT visual |
 
 ---
 
@@ -736,6 +850,7 @@ Ini adalah mekanisme keamanan - attacker tidak bisa membedakan antara "kunci sal
 > **Tugas Praktikum:**
 > 1. Setup akun Shiftr.io dan catat kredensial
 > 2. Upload kode ESP32 dengan mengganti kredensial dan kunci
-> 3. Buka dashboard web HTML dan koneksikan ke broker yang sama
-> 4. Gunakan MQTT Explorer untuk memverifikasi bahwa data tidak bisa dibaca plaintext
-> 5. Catat hasil pengamatan dan kendala yang dihadapi
+> 3. Jalankan program uji mandiri (`aes_encrypt`) untuk verifikasi fungsi dasar
+> 4. Buka dashboard web HTML dan koneksikan ke broker yang sama
+> 5. Gunakan MQTT Explorer untuk memverifikasi bahwa data tidak bisa dibaca plaintext
+> 6. Catat hasil pengamatan dan kendala yang dihadapi dalam laporan praktikum
